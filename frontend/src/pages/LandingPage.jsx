@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Zap,
   Target,
@@ -85,13 +86,26 @@ export default function LandingPage() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <Link to="/dashboard">
-            <Button variant="ghost" size="sm">Sign in</Button>
+          <Link to="/login">
+            <Button variant="ghost" size="sm">
+              Sign in
+            </Button>
           </Link>
-          <Link to="/dashboard">
-            <Button size="sm">Start Free <ChevronRight size={14} /></Button>
+
+          <Link to="/signup">
+            <Button size="sm">
+              Start Free
+            </Button>
           </Link>
         </div>
+
+
+
+
+
+
+
+
       </nav>
 
       {/* Hero */}
