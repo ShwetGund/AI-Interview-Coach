@@ -20,3 +20,15 @@ app.include_router(interview_router)
 @app.get("/")
 def home():
     return {"message": "Backend Running Successfully"}
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://ai-interview-coach-self-ten.vercel.app"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
