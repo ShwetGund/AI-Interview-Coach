@@ -4,6 +4,7 @@ import { uploadResume } from "../api/api";
 import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { saveAnalysis } from "../services/firebase";
 
 
 import {
@@ -194,26 +195,26 @@ Good resume with strong technical foundation and AI project experience.
         finalSummary,
       });
 
-      if (currentUser) {
-        await saveAnalysis(
-          currentUser.uid,
-          currentUser.email,
-          file.name,
-          extractedScore,
-          analysisText
-        );
-      }
+      // if (currentUser) {
+      //   await saveAnalysis(
+      //     currentUser.uid,
+      //     currentUser.email,
+      //     file.name,
+      //     extractedScore,
+      //     analysisText
+      //   );
+      // }
 
 
 
 
     } catch (error) {
 
-      console.error(error);
+  console.error("ACTUAL ERROR:", error);
 
-      alert("Resume upload failed");
+  alert(error.message);
 
-    } finally {
+} finally {
 
       setAnalyzing(false);
     }

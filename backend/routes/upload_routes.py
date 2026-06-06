@@ -2,6 +2,7 @@ from services.gemini_service import analyze_resume
 from fastapi import APIRouter, UploadFile, File, Form
 import fitz
 
+
 router = APIRouter()
 
 @router.post("/upload-resume")
