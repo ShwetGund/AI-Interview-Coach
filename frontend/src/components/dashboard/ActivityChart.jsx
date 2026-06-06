@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+
 const data = [
   { day: "Mon", score: 62, interviews: 2 },
   { day: "Tue", score: 71, interviews: 3 },
@@ -41,6 +42,9 @@ function CustomTooltip({ active, payload, label }) {
 }
 
 export default function ActivityChart() {
+   
+ 
+
   return (
     <div className="glass rounded-2xl p-6 border border-indigo-500/15 animate-slide-up">
       <div className="flex items-center justify-between mb-6">

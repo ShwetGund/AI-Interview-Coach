@@ -74,3 +74,50 @@ Job Description:
         print("Gemini Error:", e)
 
         return f"ERROR: {str(e)}"
+    
+def evaluate_interview_answer(
+    answer,
+    role,
+    difficulty,
+    interview_type
+):
+
+    prompt = f"""
+You are a Senior AI Interviewer.
+
+Role: {role}
+Difficulty: {difficulty}
+Interview Type: {interview_type}
+
+Candidate Answer:
+{answer}
+
+Evaluate the answer and return EXACTLY in this format:
+
+Score:
+<number out of 100>
+
+Feedback:
+<detailed feedback>
+
+Next Question:
+<next interview question>
+
+Rules:
+- Score honestly.
+- If answer is nonsense, random text, or irrelevant, give a low score.
+- Ask only ONE next question.
+- Keep feedback professional.
+"""
+
+    try:
+
+        response = model.generate_content(prompt)
+
+        return response.text
+
+    except Exception as e:
+
+        print("Gemini Error:", e)
+
+        return f"ERROR: {str(e)}"

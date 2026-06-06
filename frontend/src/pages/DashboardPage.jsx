@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import StatsCard from "../components/dashboard/StatsCard";
 import ActivityChart from "../components/dashboard/ActivityChart";
 import Button from "../components/shared/Button";
+import { useContext } from "react";
+import { InterviewContext } from "../context/InterviewContext";
 
 const recentSessions = [
   { id: 1, topic: "System Design: URL Shortener", score: 88, date: "Today", duration: "32 min", tag: "Technical" },
@@ -38,8 +40,26 @@ const tagColor = {
   Product: "text-violet-400 bg-violet-500/10",
   Coding: "text-emerald-400 bg-emerald-500/10",
 };
-
 export default function DashboardPage() {
+
+  const {
+    scores,
+    questionsAnswered,
+  } = useContext(InterviewContext);
+
+  const averageScore =
+    scores.length > 0
+      ? Math.round(
+          scores.reduce((a, b) => a + b, 0) /
+          scores.length
+        )
+      : 0;
+
+  const bestScore =
+    scores.length > 0
+      ? Math.max(...scores)
+      : 0;
+
   return (
     <div className="space-y-7 animate-fade-in">
       {/* Header */}
@@ -49,8 +69,10 @@ export default function DashboardPage() {
             <CalendarDays size={14} />
             {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
           </p>
+
+
           <h1 className="font-display font-bold text-2xl md:text-3xl text-white mt-0.5">
-            Good morning, Alex 👋
+            Welcome Back 👋
           </h1>
         </div>
         <Link to="/interview">
@@ -62,7 +84,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard
           label="Avg. Score"
-          value="84%"
+          value={`${averageScore}%`}
           change="+6% this week"
           changeType="up"
           icon={Target}
@@ -71,7 +93,7 @@ export default function DashboardPage() {
         />
         <StatsCard
           label="Sessions"
-          value="27"
+          value={questionsAnswered}
           change="+4 this week"
           changeType="up"
           icon={MessageSquare}
@@ -80,7 +102,7 @@ export default function DashboardPage() {
         />
         <StatsCard
           label="Questions"
-          value="214"
+          value={questionsAnswered}
           change="+31 this week"
           changeType="up"
           icon={Brain}
@@ -89,86 +111,16 @@ export default function DashboardPage() {
         />
         <StatsCard
           label="Best Score"
-          value="97%"
+          value={`${bestScore}%`}
           icon={Award}
           accent="amber"
           sublabel="System Design interview"
         />
       </div>
 
-      {/* Chart + Recommendations */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <div className="lg:col-span-2">
-          <ActivityChart />
-        </div>
-        <div className="glass rounded-2xl p-5 border border-slate-700/40">
-          <h3 className="font-display font-semibold text-white mb-1">Recommended</h3>
-          <p className="text-xs text-slate-500 mb-4 font-body">Based on your weak areas</p>
-          <div className="space-y-3">
-            {recommendedTopics.map((t) => (
-              <div
-                key={t.label}
-                className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-xl hover:bg-slate-800 transition-colors cursor-pointer group"
-              >
-                <span className="text-lg">{t.icon}</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-200 truncate">{t.label}</p>
-                  <span className={`text-xs font-body px-2 py-0.5 rounded-full ${difficultyColor[t.difficulty]}`}>
-                    {t.difficulty}
-                  </span>
-                </div>
-                <ArrowRight size={15} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
-              </div>
-            ))}
-          </div>
-          <Link to="/interview">
-            <Button variant="secondary" className="w-full mt-4" size="sm">
-              Browse All Topics
-            </Button>
-          </Link>
-        </div>
-      </div>
+ 
 
-      {/* Recent sessions */}
-      <div className="glass rounded-2xl border border-slate-700/40 overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/60">
-          <div>
-            <h3 className="font-display font-semibold text-white">Recent Sessions</h3>
-            <p className="text-xs text-slate-500 font-body mt-0.5">Your latest practice runs</p>
-          </div>
-          <Button variant="ghost" size="sm" icon={BookOpen}>View All</Button>
-        </div>
-        <div className="divide-y divide-slate-800/60">
-          {recentSessions.map((s) => (
-            <div
-              key={s.id}
-              className="flex items-center gap-4 px-6 py-4 hover:bg-slate-800/30 transition-colors cursor-pointer group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center shrink-0">
-                <MessageSquare size={17} className="text-slate-500" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-slate-200 truncate">{s.topic}</p>
-                <div className="flex items-center gap-3 mt-1">
-                  <span className={`text-xs font-body px-2 py-0.5 rounded-full ${tagColor[s.tag]}`}>
-                    {s.tag}
-                  </span>
-                  <span className="text-xs text-slate-600 flex items-center gap-1">
-                    <Clock size={11} /> {s.duration}
-                  </span>
-                  <span className="text-xs text-slate-600">{s.date}</span>
-                </div>
-              </div>
-              <div className={`text-sm font-display font-bold ${
-                s.score >= 85 ? "text-emerald-400" : s.score >= 70 ? "text-amber-400" : "text-red-400"
-              }`}>
-                {s.score}%
-              </div>
-              <ArrowRight size={15} className="text-slate-700 group-hover:text-slate-400 transition-colors" />
-            </div>
-          ))}
-        </div>
-      </div>
+     
     </div>
   );
 }

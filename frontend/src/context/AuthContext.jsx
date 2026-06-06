@@ -5,27 +5,27 @@ import { auth } from "../firebase/firebase";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [currentUser, setCurrentUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user);
-            setLoading(false);
-        });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
 
-        return unsubscribe;
-    }, []);
+    return unsubscribe;
+  }, []);
 
-    return (
+  return (
+    
+  <AuthContext.Provider value={{ currentUser }}>
+    {!loading && children}
+  </AuthContext.Provider>
 
-        <AuthContext.Provider value={{ currentUser }}>
-            {!loading && children}
-        </AuthContext.Provider>
-
-    );
+  );
 }
 
 export function useAuth() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }

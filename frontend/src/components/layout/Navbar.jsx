@@ -1,9 +1,21 @@
 import { Bell, Search, ChevronDown, Zap } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar({ onMenuToggle }) {
   const [notifOpen, setNotifOpen] = useState(false);
+  const { currentUser } = useAuth();
+const user = currentUser;
+
+  const userEmail =
+    user?.email || "User";
+
+  const userName =
+    userEmail.split("@")[0];
+
+  const initials =
+    userName.substring(0, 2).toUpperCase();
 
   const notifications = [
     { id: 1, text: "Mock interview score improved by 12%", time: "2m ago", dot: "bg-cyan-400" },
@@ -76,11 +88,16 @@ export default function Navbar({ onMenuToggle }) {
         {/* Avatar */}
         <div className="flex items-center gap-2 pl-2 cursor-pointer group">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-indigo-500 flex items-center justify-center text-white text-xs font-display font-bold">
-            AJ
+            {initials}
           </div>
           <div className="hidden sm:block">
-            <p className="text-xs font-medium text-slate-300 leading-tight">Alex Johnson</p>
-            <p className="text-xs text-slate-500">Pro Plan</p>
+            <p className="text-xs font-medium text-slate-300 leading-tight">
+              {userName}
+            </p>
+
+            <p className="text-xs text-slate-500">
+  {userEmail}
+</p>
           </div>
           <ChevronDown size={14} className="text-slate-500 hidden sm:block group-hover:text-slate-300 transition-colors" />
         </div>

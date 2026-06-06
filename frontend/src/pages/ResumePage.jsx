@@ -3,6 +3,8 @@ import AnalysisCard from "../components/resume/AnalysisCard";
 import { uploadResume } from "../api/api";
 import { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+
 
 import {
   Upload,
@@ -29,6 +31,8 @@ export default function ResumePage() {
   const [feedback, setFeedback] = useState(null);
 
   const [extractedText, setExtractedText] = useState("");
+
+  const { currentUser } = useAuth();
 
   const handleFile = (f) => {
 
@@ -189,6 +193,16 @@ Good resume with strong technical foundation and AI project experience.
         suggestions,
         finalSummary,
       });
+
+      if (currentUser) {
+        await saveAnalysis(
+          currentUser.uid,
+          currentUser.email,
+          file.name,
+          extractedScore,
+          analysisText
+        );
+      }
 
 
 
