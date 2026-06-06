@@ -4,7 +4,7 @@ import { uploadResume } from "../api/api";
 import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import { saveAnalysis } from "../services/firebase";
+
 
 
 import {
